@@ -76,9 +76,19 @@ namespace Boo.Lang.Compiler.Ast
 			}
 		}
 
+		static T[] _emptyNodeArray = new T[0];
+
 		public IEnumerator<T> GetEnumerator()
 		{
+			if (IsEmpty) {
+				return _emptyNodeArray.GetEnumerator();
+			}
 			return _list.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
 		}
 
 		public Node ParentNode
@@ -124,11 +134,6 @@ namespace Boo.Lang.Compiler.Ast
 		public void CopyTo(T[] array, int index)
 		{
 			_list.CopyTo(array, index);
-		}
-
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return _list.GetEnumerator();
 		}
 
 		public void Clear()
